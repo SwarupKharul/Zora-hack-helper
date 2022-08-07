@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express')
 const axios = require('axios')
 const bodyParser = require("body-parser");
@@ -16,6 +18,10 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
 
+app.get('/', (req, res) => {
+    res.status(200).send('Hello World!')
+})
+
 app.get('/stream/:streamId', async (req, res) => {
     if (req.method === "GET") {
         const authorizationHeader = req.headers && req.headers["authorization"];
@@ -26,7 +32,7 @@ app.get('/stream/:streamId', async (req, res) => {
                 {
                     headers: {
                         "content-type": "application/json",
-                        authorization: authorizationHeader, // API Key needs to be passed as a header
+                        authorization: `Bearer ${process.env.API_KEY}`, // API Key needs to be passed as a header
                     },
                 }
             );
@@ -61,7 +67,7 @@ app.post('/streams', async (req, res) => {
                 {
                     headers: {
                         "content-type": "application/json",
-                        authorization: authorizationHeader, // API Key needs to be passed as a header
+                        authorization: `Bearer ${process.env.API_KEY}`, // API Key needs to be passed as a header
                     },
                 }
             );
@@ -85,6 +91,3 @@ app.post('/streams', async (req, res) => {
     }
 });
 
-app.get('/', (req, res) => {
-    res.send('Success 2022')
-})
