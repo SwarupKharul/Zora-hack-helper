@@ -1,7 +1,13 @@
 const express = require('express')
+// const bodyParser = require("body-parser");
+// const router = express.Router();
 var cors = require('cors')
 const app = express()
 const port = 3000
+
+//Here we are configuring express to use body-parser as middle-ware.
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 
 app.use(cors())
 
@@ -38,7 +44,7 @@ app.get('/stream/:streamId', async (req, res) => {
     }
 })
 
-app.get('/streams', async (req, res) => {
+app.post('/streams', async (req, res) => {
     if (req.method === "POST") {
         const authorizationHeader = req.headers && req.headers["authorization"];
         const streamName = req.body && req.body.name;
@@ -78,4 +84,6 @@ app.get('/streams', async (req, res) => {
     }
 });
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+app.get('/', (req, res) => {
+    res.send('Success 2022')
+})
