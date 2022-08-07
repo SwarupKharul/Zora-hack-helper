@@ -1,14 +1,14 @@
 const express = require('express')
 const axios = require('axios')
-// const bodyParser = require("body-parser");
-// const router = express.Router();
+const bodyParser = require("body-parser");
+const router = express.Router();
 var cors = require('cors')
 const app = express()
 const port = 3000
 
-//Here we are configuring express to use body-parser as middle-ware.
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
+// Here we are configuring express to use body-parser as middle-ware.
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(cors())
 
@@ -19,7 +19,7 @@ app.listen(port, () => {
 app.get('/stream/:streamId', async (req, res) => {
     if (req.method === "GET") {
         const authorizationHeader = req.headers && req.headers["authorization"];
-        const streamId = req.query.streamId;
+        const { streamId } = req.params;
         try {
             const streamStatusResponse = await axios.get(
                 `https://livepeer.com/api/stream/${streamId}`,
